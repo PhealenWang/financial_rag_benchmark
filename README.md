@@ -29,3 +29,11 @@
 
 对于内容型查询，使用基于相似度的指标和基于模型的指标进行评价，其中基于相似度的指标包括Rouge-l、BLEU和余弦相似度，基于模型的指标包括幻觉、完备性和相关性。
 
+对于内容型查询的检索器检索器，我们有基本检索器（Base）、必应检索器（Bing）和无检索器（Close）三类设置；生成器方面，我们使用当前常见的中文大语言模型，包括DeepSeek-v3、DeepSeek-R1、Doubao-1.5-pro、Moonshot-v1、Baichuan4。
+
+数值型查询的评价结果如下：
+![数值型查询的评价结果](assets/value_result.png)
+
+内容型查询的评价结果如下：
+
+![内容型查询的评价结果](assets/content_result.png)
