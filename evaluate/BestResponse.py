@@ -1,9 +1,7 @@
 import os
 import json
-from openai import OpenAI, RateLimitError
-from typing import Optional
+from openai import OpenAI
 from tqdm import tqdm
-from time import sleep
 from argparse import ArgumentParser
 
 
@@ -13,8 +11,8 @@ class BestResponse(object):
     '''
     def __init__(self, model):
         self.model = model
-        if self.model == 'doubao1.5-pro-32k':
-            self.client = OpenAI(api_key="951def3b-e049-43cf-8f83-bcac8457eb78", base_url="https://ark.cn-beijing.volces.com/api/v3")
+        if self.model == '<- YOUR MODEL ->':
+            self.client = OpenAI(api_key="<- YOUR API KEY ->", base_url="<- YOUR BASE URL ->")
         else:
             exit(1)
         with open(f'prompts/best_response', 'r', encoding='utf-8') as fr:

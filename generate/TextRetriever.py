@@ -40,8 +40,8 @@ class TextRetriever(object):
 
     def request(self, query, params, count=10, offset=0, timeout=2000, limit=3):
         if self.type == 'bing':
-            url = 'https://api.coze.cn/v1/workflow/run'
-            key = 'pat_PTzVCHas1WmB8FQ0ICWpe2bCR0v73Fc75BUtBTYT5tMkgZBFhGef9PRoFxmia0BF'
+            url = '<- YOUR URL ->'
+            key = '<- YOUR KEY ->'
             start_time = time.time()
             headers = {
                 'Authorization': 'Bearer ' + key,
@@ -55,7 +55,7 @@ class TextRetriever(object):
                     "offset": offset,
                     "query": query
                 },
-                "workflow_id": '7452660385951268874'
+                "workflow_id": '<- YOUR ID ->'
             }
             data = json.dumps(jsonBody, default=lambda obj: obj.__dict__, ensure_ascii=False)
 
@@ -76,15 +76,8 @@ class TextRetriever(object):
             return None
 
         else:
-            recallnum = 150
-            size = 60
             command = [
-                "curl",
-                "-X", "POST",
-                "-H", "Content-Type: application/json",
-                "-d",
-                f'{{"query":["{query}"], "type":"report,wechat,news", "recallnum": {recallnum}, "size": {size}, "source": "wf", "startdate": "{params["startdate"]}", "enddate": "{params["enddate"]}"}}',
-                "http://101.126.90.188:5629/embedding/search/v2"
+                '<- YOUR COMMAND ->'
             ]
             # 执行curl命令并捕获输出
             result = subprocess.run(command, text=True, capture_output=True)

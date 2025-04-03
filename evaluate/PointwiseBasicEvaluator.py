@@ -10,7 +10,7 @@ class PointwiseBasicEvaluator(object):
         self.metric = metric
         self.query_type = query_type
         if self.metric == 'perplexity' and self.query_type == 'content':
-            self.model = kenlm.Model('model/zh.arpa.bin')
+            self.model = kenlm.Model('models/zh.arpa.bin')
 
     def score(self, text):
         '''
@@ -44,16 +44,7 @@ if __name__ == '__main__':
     parser.add_argument('--query_type', type=str, default='content', choices=['content', 'value'])
     args = parser.parse_args()
 
-    # print(compare_string_with_units('自仪股份, ST自仪, SST自仪', '自仪股份、ST自仪、SST自仪'))
-    # exit()
-
     current_model = 'groundtruth'
-    # current_model = 'deepseek-chat'
-    # current_model = 'deepseek-r1'
-    # current_model = 'deepseek-chat_close'
-    # current_model = 'moonshot-v1-8k'
-    # current_model = 'Baichuan4-Air'
-    # current_model = 'doubao1.5-pro-32k'
 
     rel_docs_folder = 'rel_docs/v7/'
     current_dir = f'results/{args.retriever}/{current_model}'
@@ -62,7 +53,6 @@ if __name__ == '__main__':
 
     evaluator = PointwiseBasicEvaluator(args.metric, args.query_type)
 
-    # read_file = 'content.jsonl' if args.metric == 'rouge-l' else 'value.jsonl'
     read_file = f'{args.query_type}.jsonl'
 
     with open(os.path.join(rel_docs_folder, current_dir, read_file), 'r', encoding='utf-8') as fr:

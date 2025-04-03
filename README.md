@@ -1,37 +1,31 @@
-## python脚本文件介绍
-### 数据集构建流程
-1. [QueryIntentClassifier.py](generate/QueryIntentClassifier.py): 用LLM标注已有query的意图，输出与输出均在data文件夹
-2. 提取查询类（query base），并将第一步的结果转化为[query_base](query_base/query_base.json)的格式
-3. [TextRetriever.py](generate/TextRetriever.py): 从query_base文档中找到query，并在数据库中检索到相关文档，存放到rel_docs对应的的文件夹下
-4. [ApiRetriever.py](generate/ApiRetriever.py): 调用Tushare API，将API相关数据存放到rel_docs对应的的文件夹下
-5. 根据第3步中检索文档的格式，将其转化为仅包含文档的列表格式，命名为merge.json
-6. [RelevanceScorer.py](generate/RelevanceScorer.py): 为每个query对应的merge.json中的文档使用LLM打分
-7. [LowRelFilter.py](generate/LowRelFilter.py): 只保留相关分数高于lower_bound的文本，默认为6分。输入为score.json，输出为score_rel.json。score_rel_6.json为高于6分的所有文本，作为保留；score_rel.json会手动删去不相关的其他文本
-8. [Generator.py](generate/Generator.py): 生成回答，使用openAI调用方式
-9. [Cluster.py](generate/Cluster.py): 把各个query及其回答汇总到两个文件当中（分为content型和value型），文件名与本次回答的大模型相关
-10. 关于评价的脚本文件均在[evaluate](evaluate)文件夹下：[basic.py](evaluate/basic.py)完成value类accuracy的评价和content类rouge-l的评价；[llm_pairwise.py](evaluate/llm_pairwise.py)完成content类需要成对比较指标的评价；[evaluate/llm_pointwise.py](evaluate/llm_pointwise.py)完成content类需要直接比较指标的评价
+# Fans-Pilot: A Benchmark for Online Financial System
+## 简介
+大语言模型在各个专业领域的任务上取得了极大的性能提升，研究人员通过各式各样的测试集对大语言模型的各项能力进行评测。在金融领域，由于专业性、实时性等独特挑战，大语言模型在应用时往往需要检索增强生成技术的辅助。但因为金融数据的私密性，金融领域检索增强生成测试数据集较为匮乏。为此，我们基于真实的金融助手场景，利用动态接口数据和文本数据，提出了基于意图分类的金融领域检索增强生成测试数据集Fans-Pilot。该数据集覆盖了个股分析、宏观分析等多个金融问答领域，能够全面测试金融助手的检索增强生成能力。通过在多个大语言模型上的实验评测，为筛选适合金融问答的大语言模型提供了依据，为金融领域的测试数据集提供了补充。
 
-### 其他脚本文件
-[ApiTushare.py](utils/ApiTushare.py): 需要调用的API\
-[base2intents.py](utils/base2intents.py): 将query_base文件转化为intents，便于观察\
-[base2queries.py](utils/base2queries.py): 将query_base文件转化为queries，便于观察\
-[cal_ratio.py](utils/cal_ratio.py): 计算6分以上文档的相关性比率，输出为result.json\
-[list2dict.py](utils/list2dict.py): 将v1版query_base转化为v2，即query级别为字典，其键为query，值为请求时的参数\
-[score_distribution.py](utils/score_distribution.py): 统计score.json的分数分布情况，输出为distribution.json
-[base_with_dis.py](utils/base_with_dis.py): 为query_base的query添加相关文本的数量字段，便于进行查看，输出为base_with_query.json
-[json2excel.py](utils/json2excel.py): 将distribution.json转化为excel，方便统计
-[delete_file.py](utils/delete_file.py): 删除三级文件夹下对应文件名的文件，方便调试（因为之前的代码加了判断一个文件是否存在的“断点逻辑”
+## 数据集的构建
+![构建流程](assets/financial-benchmark-workflow.png)
+1. 根据在线金融助手的情况，得到对查询的意图分类[intents](query_base/intents.json)；
+2. [QueryIntentClassifier.py](generate/QueryIntentClassifier.py): 用LLM标注已有查询的意图；
+3. 提取查询类（query base），并将第二步的结果转化为[query_base](query_base/query_base.json)的格式；
+4. 检索相关信息：对于数值型查询，调用Tushare API查询API相关数据，细节见[ApiRetriever.py](generate/ApiRetriever.py): ；对于内容型查询，从数据库或Bing中检索到相关文档，细节见[TextRetriever.py](generate/TextRetriever.py): ；
+5. [RelevanceScorer.py](generate/RelevanceScorer.py): 使用LLM，对每个内容型查询与其对应的相关文档的相关性进行打分；
+6. [LowRelFilter.py](generate/LowRelFilter.py): 保留相关分数不低于lower_bound的文本，默认lower_bound为6分；
+7. [Generator.py](generate/Generator.py): 使用LLM为每个查询生成回答；
+8. [Cluster.py](generate/Cluster.py): 把所有查询及其回答汇总到两个文件当中（分为数值型和内容型）；
+9. 对于数值型查询，将由开发人员直接检查其正确答案；对于内容型查询，使用另一个LLM获取已有答案中最优的一个（[BestResponse.py](evaluate/BestResponse.py)），再经过专家的矫正，得到最佳答案。
 
 
-## 数据介绍
-### 相关文档[rel_docs](rel_docs)
-v{版本号}为文件夹的名称，其各级文件夹名分别为一级意图、二级意图、query，query文件夹下的文件分别为
-1. news/report/wechat_{recallnum}_{size}.json: 检索到的相关文档，类型分别为news/report/wechat，召回参数和精排参数分别为recallnum和size
-2. merge.json: 将news/report/wechat相关文档合并
-3. score.json: 使用大模型对每个相关文档进行打分
-4. score_rel_6: 保留6分及以上的文本
-5. score_rel: 保留6分及以上的文本，并手动删除不相关的文本
-v{版本号}为文件夹下还有两个文件：
-distribution.json: 统计所有query的分数分布\
-result.json: 统计每个query真实相关文本和6分级以上文本数量的比值
-6. json2excel.py: 将distribution.json转化为excel，方便统计
+## 两类查询
+根据回答方式与相关信息的类比，我们将查询分为数值型查询和内容型查询。
+
+### 数值型查询
+数值型查询的回答的数值，其相关信息主要是动态接口数据，共有104条，全部集中在“宏观分析-经济指标解读”、“个股分析-个股数据查询”、“市场分析-市场数据查询”、“基金分析-基金数据查询”四个二级意图下。
+
+### 内容型查询
+内容型查询的回答是文本内容格式，其相关信息也都为文本数据，共有212条。
+
+## 评价
+对于数值型查询，直接使用准确率（Accuracy）进行评价。
+
+对于内容型查询，使用基于相似度的指标和基于模型的指标进行评价，其中基于相似度的指标包括Rouge-l、BLEU和余弦相似度，基于模型的指标包括幻觉、完备性和相关性。
+

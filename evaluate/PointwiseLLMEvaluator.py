@@ -3,7 +3,6 @@ import json
 from openai import OpenAI, RateLimitError
 from tqdm import tqdm
 from time import sleep
-import pandas as pd
 from typing import Optional
 from argparse import ArgumentParser
 
@@ -12,19 +11,16 @@ class PointwiseLLMEvaluator(object):
     '''
     detect hallucination
     '''
-    def __init__(self, model='doubao1.5-pro-32k', metric='overall'):
+    def __init__(self, model, metric='overall'):
         '''
         :param model: 所使用的LLM
         :param metric: 所使用的指标
         '''
         self.model = model
-        if self.model == 'deepseek-chat' or self.model == 'deepseek-reasoner':
-            self.client = OpenAI(api_key="sk-01c4527fc0a346c4a31c32fdb1998ab8", base_url="https://api.deepseek.com")
-        # doubao1.5-pro-32k
-        elif self.model == 'doubao1.5-pro-32k':
-            self.client = OpenAI(api_key="951def3b-e049-43cf-8f83-bcac8457eb78", base_url="https://ark.cn-beijing.volces.com/api/v3")
+        if self.model == '<- YOUR MODEL ->':
+            self.client = OpenAI(api_key="<- YOUR API KEY ->", base_url="<- YOUR BASE URL ->")
         else:
-            exit(100)
+            exit(1)
 
         self.metric = metric
         # 读入prompt
@@ -46,7 +42,7 @@ class PointwiseLLMEvaluator(object):
         while count < 3:
             try:
                 response = self.client.chat.completions.create(
-                    model='ep-20250122140342-xfg2r',
+                    model=self.model,
                     messages=[{"role": "user", "content": prompt}],
                     # max_tokens=2048,
                     temperature=0
@@ -85,22 +81,10 @@ if __name__ == '__main__':
     parser.add_argument('--query_type', type=str, default='content', choices=['content'])
     args = parser.parse_args()
 
-    # 判别LLM 使用豆包doubao1.5-pro-32k
-    judger_model = 'doubao1.5-pro-32k'
+    # 判别LLM
+    judger_model = '<- YOUR JUDGER MODEL ->'
     rel_dir = 'rel_docs/v7'
-
-    # 所需参数，懒得使用argparse了
-    # 指标
-    # metric = 'overall'
-    # metric = 'sentences'
-    # 生成LLM
-    # model = 'groundtruth'
-    # model = 'deepseek-chat'
-    model = 'deepseek-r1'
-    # model = 'deepseek-chat_close'
-    # model = 'moonshot-v1-8k'
-    # model = 'Baichuan4-Air'
-    # model = 'doubao1.5-pro-32k'
+    model = '<- YOUR MODEL ->'
 
     # 这个地方需要读取出每个query是否是content类型，但deepseek-chat中加入了这个信息
     dataset_path = os.path.join(rel_dir, f'results/{args.retriever}/{model}/content.jsonl')

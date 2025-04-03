@@ -1,0 +1,104 @@
+{"query": "2024年2月CPI", "answer": "100.7", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2023年12月全部工业品PPI", "answer": "-2.7%", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2024年第三季度GDP增速", "answer": "4.8%", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2023年第二季度GDP增速", "answer": "5.5%", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2023年第二季度第三产业累计值", "answer": "331936.5 亿元", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2021年10月全部工业品PPI", "answer": "13.5%", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2024年2月全部工业品PPI", "answer": "13.5%", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2024年第一季度第一产业累计值", "answer": "11538.0 亿元", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2020年第三季度GDP增速", "answer": "0.7%", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2024年10月CPI", "answer": "100.3", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2019年第二季度第二产业累计值", "answer": "179122.1亿元", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2022年8月CPI", "answer": "102.5", "first_intent": "宏观分析", "second_intent": "经济指标解读", "type": "value"}
+{"query": "2023年第三季度贵州茅台毛利率", "answer": "91.5204 %", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年12月5日赛力斯市净率", "answer": "5.6101", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年5月7日立讯精密的总市值", "answer": "22151342.9119 万元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年4月1日长江电力市净率", "answer": "2.7952", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第二季度长春高新净债务", "answer": "-5.00878332654e+09 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年4月15日歌尔股份的收盘价", "answer": "57.36 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年上半年贵州茅台的营业总成本", "answer": "1.785504855055e+10 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年4月7日云天化股息率", "answer": "0.0%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年12月26日格力电器的总市值", "answer": "1.82175975721e+07 万元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年6月1日中芯国际市盈率", "answer": "35.5456", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年12月16日歌尔股份的成交量", "answer": "352198.0", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年5月18日中芯国际成交额是多少", "answer": "1940830.221千元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年第一季度东方财富的营业利润", "answer": "2.18777977186e+9 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年第三季度中芯国际净债务", "answer": "-3.6302376e+10 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年5月15日顺丰控股的开盘价", "answer": "37.25", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年12月25日雅克科技换手率", "answer": "1.1942%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年4月1日中科曙光股价是多少", "answer": "48.89", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "中科曙光的历史最高股价", "answer": "169.99 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2020年1月21日贵州茅台市净率", "answer": "10.784", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年4月15日漱玉平民的成交额", "answer": "4671.04 千元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年12月5日中芯国际的总市值", "answer": "41631913.2997 万元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第一季度长江电力的营业利润", "answer": "4.864838444e+09 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年第三季度雅克科技每股营业总收入", "answer": "6.654 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年7月15日比亚迪的收盘价", "answer": "261.71 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年第一季度士兰微的营业总收入", "answer": "1.47516752027e+09", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年12月30日贵州茅台成交额是多少", "answer": "3849542.646千元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第三季度立讯精密的营业总成本", "answer": "1.695441407215e+11 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年第二季度隆基绿能毛利率", "answer": "15.4546%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年第一季度上海临港每股营业总收入", "answer": "0.5984 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年7月1日上海临港股息率", "answer": "1.8587%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年11月1日贵州茅台股价是多少", "answer": "1533.75 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年7月19日赛力斯成交额是多少", "answer": "1152285.352千元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年6月3日药明康德成交量是多少", "answer": "371090.89 手", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年12月14日常山药业的成交量", "answer": "1053758.0", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年12月22日格力电器市盈率", "answer": "7.3625", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年6月19日东华软件的成交额", "answer": "69755.28 千元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年3月13日隆基绿能的收盘价", "answer": "41.99 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第一季度士兰微净债务", "answer": "557897867.96 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年上半年顺丰控股的净利润", "answer": "3.296775e+09 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年7月10日长江电力成交量是多少", "answer": "336731.55 手", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年12月1日歌尔股份市盈率", "answer": "62.4844", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "歌尔股份的历史最高股价", "answer": "71.34 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年9月1日中航沈飞换手率", "answer": "0.5227%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年第一季度长电科技净利率", "answer": "1.8759 %", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年全年美的集团的营业总成本", "answer": "3.12738576e+11 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年7月19日上海临港的成交额", "answer": "3416.03 千元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年7月17日上海临港的开盘价", "answer": "9.38", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年第一季度广汽集团净利率", "answer": "12.9383%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第三季度比亚迪每股营业总收入", "answer": "172.6385 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年第三季度雅克科技的归属母公司股东的净利润同比增长率", "answer": "18.8845%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年9月3日东方财富成交量是多少", "answer": "1308934.74 手", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第三季度雅克科技的营业总收入", "answer": "4.99911844366e+09 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第一季度中兴通讯的营业总收入", "answer": "3.0578301e+10 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年上半年格力电器的归属母公司股东的净利润同比增长率", "answer": "10.5242%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年12月21日中国人寿换手率", "answer": "0.0476%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "上海临港曾用名有哪些", "answer": "自仪股份, ST自仪, SST自仪", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年第三季度工商银行的净利润", "answer": "2.6651e+11 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第一季度东华软件净利率", "answer": "-0.2667%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年2月1日顺丰控股股价是多少", "answer": "34.71", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年第三季度比亚迪的营业利润", "answer": "2.6637286e+10 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年9月1日东华软件股息率", "answer": "0.6452%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2021年第一季度TCL中环毛利率", "answer": "20.341 %", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "中航沈飞的历史最高股价", "answer": "100.15 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年第一季度药明康德的归属母公司股东的净利润同比增长率", "answer": "-10.4199%", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2022年2月16日立讯精密的开盘价", "answer": "45.6", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2024年上半年中国人寿的净利润", "answer": "3.904400e+10 元", "first_intent": "个股分析", "second_intent": "个股数据查询", "type": "value"}
+{"query": "2023年11月1日的A股成交量同比2023年10月31日下降了多少？", "answer": "-86394350.65 手", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "沪深股票2022年最大的单日跌幅是多少", "answer": "29.0%", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2017年12月12日A股市场开盘价最高的是哪只股票", "answer": "贵州茅台", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年7月9日雅克科技跌停价格", "answer": "58.14 元", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "沪深股票2024年最大的单日跌幅是多少", "answer": "14.6667%", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年6月12日A股市场开盘价最高的是哪只股票", "answer": "贵州茅台", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年7月1日A股市场涨幅最多的是哪只股票", "answer": "锦浪科技", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年5月A股月收盘价最高的是哪只股票", "answer": "贵州茅台", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年12月2日A股市场涨幅最多的是哪只股票", "answer": "茂莱光学", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年11月15日比亚迪涨停价格", "answer": "324.23 元", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年12月17日兆易创新涨停价格", "answer": "106.33 元", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年12月16日的A股成交量同比2024年12月12日下降了多少？", "answer": "-194627095.59 手", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2023年9月1日A股市场开盘价最高的是哪只股票", "answer": "贵州茅台", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2023年12月1日A股市场涨幅最多的是哪只股票", "answer": "中机认检", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2023年11月21日赛力斯涨停价格", "answer": "89.3 元", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2020年7月A股月收盘价最高的是哪只股票", "answer": "1678.18 元", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2023年11月15日格力电器跌停价格", "answer": "29.5", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年1月9日中航沈飞跌停价格", "answer": "34.72", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年9月A股月收盘价最高的是哪只股票", "answer": "贵州茅台", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "沪深股票2023年最大的单日跌幅是多少", "answer": "10.0306%", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "2024年7月1日的A股成交量同比2024年1月4日下降了多少？", "answer": "41084484.27 手", "first_intent": "市场分析", "second_intent": "市场数据查询", "type": "value"}
+{"query": "浙商基金的浙商兴盛一年定开债的发行日期", "answer": "20210628", "first_intent": "基金分析", "second_intent": "基金数据查询", "type": "value"}
+{"query": "中金基金的中金安徽交控REIT的上市时间", "answer": "20230728", "first_intent": "基金分析", "second_intent": "基金数据查询", "type": "value"}
+{"query": "浙商基金的浙商智配瑞享一年持有的发行日期", "answer": "20220613", "first_intent": "基金分析", "second_intent": "基金数据查询", "type": "value"}
+{"query": "南方基金的南方丰元信用增强的成立日期", "answer": "20241226", "first_intent": "基金分析", "second_intent": "基金数据查询", "type": "value"}
+{"query": "南方基金的通信ETF基金的成立日期", "answer": "20230728", "first_intent": "基金分析", "second_intent": "基金数据查询", "type": "value"}

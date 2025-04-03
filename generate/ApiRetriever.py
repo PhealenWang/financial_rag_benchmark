@@ -1,4 +1,4 @@
-from utils.ApiTushare import ApiTushare
+from generate.ApiTushare import ApiTushare
 import json
 import os
 from argparse import ArgumentParser

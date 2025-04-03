@@ -109,16 +109,8 @@ if __name__ == '__main__':
     parser.add_argument('--query_type', type=str, default='value', choices=['content', 'value'])
     args = parser.parse_args()
 
-    # print(compare_string_with_units('自仪股份, ST自仪, SST自仪', '自仪股份、ST自仪、SST自仪'))
-    # exit()
-
     hypothesis_model = 'groundtruth'
-    # reference_model = 'deepseek-chat'
-    # reference_model = 'deepseek-r1'
-    # reference_model = 'deepseek-chat_close'
-    # reference_model = 'moonshot-v1-8k'
-    # reference_model = 'Baichuan4-Air'
-    reference_model = 'doubao1.5-pro-32k'
+    reference_model = '<- YOUR MODEL ->'
 
     rel_docs_folder = 'rel_docs/v7/'
     hypothesis_dir = f'results/{args.retriever}/{hypothesis_model}'

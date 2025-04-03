@@ -18,10 +18,10 @@ class PairwiseLLMEvaluator(object):
         :param metric: 所使用的指标
         '''
         self.model = model
-        if self.model == 'doubao1.5-pro-32k':
-            self.client = OpenAI(api_key="951def3b-e049-43cf-8f83-bcac8457eb78", base_url="https://ark.cn-beijing.volces.com/api/v3")
+        if self.model == '<- YOUR MODEL ->':
+            self.client = OpenAI(api_key="<- YOUR API KEY ->", base_url="<- YOUR BASE URL ->")
         else:
-            exit(100)
+            exit(1)
 
         self.metric = metric
         # 读入prompt
@@ -44,7 +44,7 @@ class PairwiseLLMEvaluator(object):
         while count < 3:
             try:
                 response = self.client.chat.completions.create(
-                    model='ep-20250122140342-xfg2r',
+                    model=self.model,
                     messages=[{"role": "user", "content": prompt}],
                     # max_tokens=2048,
                     temperature=0
@@ -80,19 +80,11 @@ if __name__ == '__main__':
     parser.add_argument('--query_type', type=str, default='content', choices=['content'])
     args = parser.parse_args()
 
-    # model = 'Baichuan4-Air'
-    # model = 'moonshot-v1-8k'
-    # # doubao1.5-pro-32k
-    model = 'doubao1.5-pro-32k'
+    model = '<- YOUR JUDGER MODEL ->'
 
 
     hypothesis_model = 'groundtruth'
-    # reference_model = 'deepseek-chat'
-    # reference_model = 'deepseek-r1'
-    reference_model = 'deepseek-chat_close'
-    # reference_model = 'moonshot-v1-8k'
-    # reference_model = 'Baichuan4-Air'
-    # reference_model = 'doubao1.5-pro-32k'
+    reference_model = '<- YOUR MODEL ->'
 
     rel_docs_folder = 'rel_docs/v7/'
     hypothesis_file = f'results/{args.retriever}/{hypothesis_model}/content.jsonl'
