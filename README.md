@@ -7,7 +7,7 @@
 1. 根据在线金融助手的情况，得到对查询的意图分类[intents](query_base/intents.json)；
 2. [QueryIntentClassifier.py](generate/QueryIntentClassifier.py): 用LLM标注已有查询的意图；
 3. 提取查询类（query base），并将第二步的结果转化为[query_base](query_base/query_base.json)的格式；
-4. 检索相关信息：对于数值型查询，调用Tushare API查询API相关数据，细节见[ApiRetriever.py](generate/ApiRetriever.py): ；对于内容型查询，从数据库或Bing中检索到相关文档，细节见[TextRetriever.py](generate/TextRetriever.py): ；
+4. 检索相关信息：对于数值型查询，调用Tushare API查询API相关数据，细节见[ApiRetriever.py](generate/ApiRetriever.py)；对于内容型查询，从数据库或Bing中检索到相关文档，细节见[TextRetriever.py](generate/TextRetriever.py)；
 5. [RelevanceScorer.py](generate/RelevanceScorer.py): 使用LLM，对每个内容型查询与其对应的相关文档的相关性进行打分；
 6. [LowRelFilter.py](generate/LowRelFilter.py): 保留相关分数不低于lower_bound的文本，默认lower_bound为6分；
 7. [Generator.py](generate/Generator.py): 使用LLM为每个查询生成回答；
