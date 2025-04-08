@@ -10,7 +10,7 @@
 4. 检索相关信息：对于数值型查询，调用Tushare API查询API相关数据，细节见[ApiRetriever.py](generate/ApiRetriever.py)；对于内容型查询，从数据库或Bing中检索到相关文档，细节见[TextRetriever.py](generate/TextRetriever.py)；
 5. [RelevanceScorer.py](generate/RelevanceScorer.py): 使用LLM，对每个内容型查询与其对应的相关文档的相关性进行打分；
 6. [LowRelFilter.py](generate/LowRelFilter.py): 保留相关分数不低于lower_bound的文本，默认lower_bound为6分；
-7. [Generator.py](generate/Generator.py): 使用LLM为每个查询生成回答；
+7. [Generator.py](generate/Generator.py): 对于每一个查询，给出其相关信息，使用LLM生成回答；
 8. [Cluster.py](generate/Cluster.py): 把所有查询及其回答汇总到两个文件当中（分为数值型和内容型）；
 9. 对于数值型查询，将由开发人员直接检查其正确答案；对于内容型查询，使用另一个LLM获取已有答案中最优的一个（[BestResponse.py](evaluate/BestResponse.py)），再经过专家的矫正，得到最佳答案。
 
@@ -24,15 +24,24 @@
 ### 内容型查询
 内容型查询的回答是文本内容格式，其相关信息也都为文本数据，共有212条。内容型查询对应的数据见[content.jsonl](dataset/content.jsonl)，相关文本的数据库见[corpus.jsonl](dataset/corpus.jsonl)。
 
-## 评价
+## 实验
+我们使用当前常见的中文大语言模型，包括DeepSeek-v3、DeepSeek-R1、Doubao-1.5-pro、Moonshot-v1、Baichuan4进行实验。
+
+### 数值型查询
 对于数值型查询，直接使用准确率（Accuracy）进行评价。
+我们使用三类方法进行实验：
+1. 不给出相关信息，仅提供查询；
+2. 不给出相关信息，但给出Tushare的部分候选API；
+3. 给出相关信息，即已检索好的API数据。
 
-对于内容型查询，使用基于相似度的指标和基于模型的指标进行评价，其中基于相似度的指标包括Rouge-l、BLEU和余弦相似度，基于模型的指标包括幻觉、完备性和相关性。
+前两类方法中，各模型在所有查询上都无法回答正确，即正确率为0，这体现了相关信息对数值类查询是必不可少的，这也表明在实时性较强的数值分析类任务中，使用外部数据的检索增强生成技术能够带来较大的收益。
 
-对于内容型查询的检索器检索器，我们有基本检索器（Base）、必应检索器（Bing）和无检索器（Close）三类设置；生成器方面，我们使用当前常见的中文大语言模型，包括DeepSeek-v3、DeepSeek-R1、Doubao-1.5-pro、Moonshot-v1、Baichuan4。
-
-数值型查询的评价结果如下：
+第三类方法的评价结果如下：
 ![数值型查询的评价结果](assets/value_result.png)
+
+### 内容型查询
+对于内容型查询，使用基于相似度的指标和基于模型的指标进行评价，其中基于相似度的指标包括Rouge-L、BLEU和余弦相似度，基于模型的指标包括幻觉、完备性和相关性。
+检索器方面，我们有基本检索器（Base）、必应检索器（Bing）和无检索器（Close）三类设置。
 
 内容型查询的评价结果如下：
 

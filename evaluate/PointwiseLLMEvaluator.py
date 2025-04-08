@@ -52,13 +52,7 @@ class PointwiseLLMEvaluator(object):
                         # print(response.choices[0].message.content.strip())
                         overall_hallucination = json.loads(response.choices[0].message.content.strip())
                         return overall_hallucination['hallucination_check'], {}
-                    elif self.metric == 'sentences':
-                        sentences = json.loads(response.choices[0].message.content.strip())
-                        rel_len = len(sentences['relevant_sentences'])
-                        irrel_len = len(sentences['irrelevant_sentences'])
-                        return (irrel_len / (rel_len + irrel_len)) if (rel_len + irrel_len) > 0 else 0, sentences
                     if self.metric == 'relevance':
-                        # print(response.choices[0].message.content.strip())
                         relevance = json.loads(response.choices[0].message.content.strip())
                         return relevance['relevance_check'], {}
                     else:

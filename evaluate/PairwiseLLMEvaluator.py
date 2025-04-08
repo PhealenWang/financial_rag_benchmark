@@ -1,7 +1,6 @@
 import os
 import json
 from openai import OpenAI, RateLimitError
-from zhipuai import ZhipuAI
 from typing import Optional
 from tqdm import tqdm
 from time import sleep
