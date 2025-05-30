@@ -1,10 +1,13 @@
 # Fans-Pilot: A Benchmark for Online Financial System
+
+🚀 \[2025/05/22\] 我们的论文被FinIR 2025接收！
+
 ## 简介
 大语言模型在各个专业领域的任务上取得了极大的性能提升，研究人员通过各式各样的测试集对大语言模型的各项能力进行评测。在金融领域，由于专业性、实时性等独特挑战，大语言模型在应用时往往需要检索增强生成技术的辅助。但因为金融数据的私密性，金融领域检索增强生成测试数据集较为匮乏。为此，我们基于真实的金融助手场景，利用动态接口数据和文本数据，提出了基于意图分类的金融领域检索增强生成测试数据集Fans-Pilot。该数据集覆盖了个股分析、宏观分析等多个金融问答领域，能够全面测试金融助手的检索增强生成能力。通过在多个大语言模型上的实验评测，为筛选适合金融问答的大语言模型提供了依据，为金融领域的测试数据集提供了补充。
 
 ## 数据集的构建
 ![构建流程](assets/financial-benchmark-workflow.png)
-1. 根据在线金融助手的情况，得到对查询的意图分类[intents](query_base/intents.json)；
+1. 根据在线金融助手的情况，得到对查询的意图分类，具体的类别请见[intents](query_base/intents.json)；
 2. [QueryIntentClassifier.py](generate/QueryIntentClassifier.py): 用LLM标注已有查询的意图；
 3. 提取查询类（query base），并将第二步的结果转化为[query_base](query_base/query_base.json)的格式；
 4. 检索相关信息：对于数值型查询，调用Tushare API查询API相关数据，细节见[ApiRetriever.py](generate/ApiRetriever.py)；对于内容型查询，从数据库或Bing中检索到相关文档，细节见[TextRetriever.py](generate/TextRetriever.py)；
