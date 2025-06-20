@@ -1,5 +1,9 @@
 # Fans-Pilot: A Benchmark for Online Financial System
 
+作者: Feng Wang, Yiding Sun, Jiaxin Mao, Wei Xue, Danqing Xu
+
+\[[Paper](https://arxiv.org/abs/2506.02037)\] \[[Github Repo](https://github.com/PhealenWang/financial_rag_benchmark)\]
+
 🚀 \[2025/05/22\] 我们的论文被FinIR 2025接收！
 
 ## 简介
@@ -8,8 +12,8 @@
 ## 数据集的构建
 ![构建流程](assets/financial-benchmark-workflow.png)
 1. 根据在线金融助手的情况，得到对查询的意图分类，具体的类别请见[intents](query_base/intents.json)；
-2. [QueryIntentClassifier.py](generate/QueryIntentClassifier.py): 用LLM标注已有查询的意图；
-3. 提取查询类（query base），并将第二步的结果转化为[query_base](query_base/query_base.json)的格式；
+2. [QueryIntentClassifier.py](generate/QueryIntentClassifier.py): 用LLM标注已有查询的意图，全部的查询源于智策领航公司财搭子应用的用户日志，我们通过对用户隐私信息的脱敏等方式，使得最终呈现的查询不带有任何的用户信息；
+3. 提取查询类（query base），并将第二步的结果转化为[query_base](query_base/query_base.json)的格式。我们将查询分为数值型查询和内容型查询两类：数值型查询例如“2024年2月全部工业品PPI”，其回答应为“数值+单位”的格式；内容型查询例如“2024年10月贵州茅台是高估还是低估”，其回答为文本格式；
 4. 检索相关信息：对于数值型查询，调用Tushare API查询API相关数据，细节见[ApiRetriever.py](generate/ApiRetriever.py)；对于内容型查询，从数据库或Bing中检索到相关文档，细节见[TextRetriever.py](generate/TextRetriever.py)；
 5. [RelevanceScorer.py](generate/RelevanceScorer.py): 使用LLM，对每个内容型查询与其对应的相关文档的相关性进行打分；
 6. [LowRelFilter.py](generate/LowRelFilter.py): 保留相关分数不低于lower_bound的文本，默认lower_bound为6分；
@@ -28,7 +32,7 @@
 内容型查询的回答是文本内容格式，其相关信息也都为文本数据，共有212条。内容型查询对应的数据见[content.jsonl](dataset/content.jsonl)，相关文本的数据库见[corpus.jsonl](dataset/corpus.jsonl)。
 
 ## 实验
-我们使用当前常见的中文大语言模型，包括DeepSeek-v3、DeepSeek-R1、Doubao-1.5-pro、Moonshot-v1、Baichuan4进行实验。
+我们使用当前常见的中文大语言模型，包括DeepSeek-v3、DeepSeek-R1、Doubao-1.5-pro、Moonshot-v1、Baichuan4进行实验，同时使用智策领航的模型小发与上述模型进行对比。
 
 ### 数值型查询
 对于数值型查询，直接使用准确率（Accuracy）进行评价。
@@ -44,7 +48,7 @@
 
 ### 内容型查询
 对于内容型查询，使用基于相似度的指标和基于模型的指标进行评价，其中基于相似度的指标包括Rouge-L、BLEU和余弦相似度，基于模型的指标包括幻觉、完备性和相关性。
-检索器方面，我们有基本检索器（Base）、必应检索器（Bing）和无检索器（Close）三类设置。
+检索器方面，我们有基本检索器（Base）、必应检索器（Bing）、Bert检索起（Bert）和无检索器（Close）四类设置。
 
 内容型查询的评价结果如下：
 

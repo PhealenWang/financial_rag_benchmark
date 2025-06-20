@@ -10,7 +10,7 @@ class PointwiseBasicEvaluator(object):
         self.metric = metric
         self.query_type = query_type
         if self.metric == 'perplexity' and self.query_type == 'content':
-            self.model = kenlm.Model('models/zh.arpa.bin')
+            self.model = kenlm.Model('models/kenlm/zh.arpa.bin')
 
     def score(self, text):
         '''
@@ -39,14 +39,14 @@ class PointwiseBasicEvaluator(object):
 '''
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'], help='retriever type')
     parser.add_argument('--metric', type=str, default='perplexity', choices=['perplexity'])
     parser.add_argument('--query_type', type=str, default='content', choices=['content', 'value'])
     args = parser.parse_args()
 
     current_model = 'groundtruth'
 
-    rel_docs_folder = 'rel_docs/v7/'
+    rel_docs_folder = 'rel_docs'
     current_dir = f'results/{args.retriever}/{current_model}'
     evaluation_folder = os.path.join(rel_docs_folder, f'evaluation/{args.retriever}/{current_model}/')
     os.makedirs(evaluation_folder, exist_ok=True)

@@ -11,8 +11,9 @@ from tqdm import tqdm
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--model', type=str, default='deepseek-chat')
-    parser.add_argument('--close', type=bool, default=False, help='是否提供相关文本')
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
+    parser.add_argument('--close', type=int, default=0, choices=[0, 1], help='是否提供相关文本')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'],
+                        help='retriever type')
     args = parser.parse_args()
 
 

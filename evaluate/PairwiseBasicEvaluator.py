@@ -7,6 +7,7 @@ import sacrebleu
 import jieba
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
 
 
 class PairwiseBasicEvaluator(object):
@@ -104,7 +105,7 @@ class PairwiseBasicEvaluator(object):
 '''
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'], help='retriever type')
     parser.add_argument('--metric', type=str, default='accuracy', choices=['rouge-l', 'accuracy', 'bleu', 'cos-sim'])
     parser.add_argument('--query_type', type=str, default='value', choices=['content', 'value'])
     args = parser.parse_args()
@@ -112,26 +113,33 @@ if __name__ == '__main__':
     hypothesis_model = 'groundtruth'
     reference_model = '<- YOUR MODEL ->'
 
-    rel_docs_folder = 'rel_docs/v7/'
-    hypothesis_dir = f'results/{args.retriever}/{hypothesis_model}'
+    rel_docs_folder = 'rel_docs'
+    hypothesis_dir = 'dataset'
     reference_dir = f'results/{args.retriever}/{reference_model}'
     # 前为hypothesis，后为reference
     evaluation_folder = os.path.join(rel_docs_folder, f'evaluation/{args.retriever}/{hypothesis_model}_vs_{reference_model}/')
     os.makedirs(evaluation_folder, exist_ok=True)
 
     evaluator = PairwiseBasicEvaluator(args.metric, args.query_type)
-
-    # read_file = 'content.jsonl' if args.metric == 'rouge-l' else 'value.jsonl'
+    
     read_file = f'{args.query_type}.jsonl'
 
-    with open(os.path.join(rel_docs_folder, hypothesis_dir, read_file), 'r', encoding='utf-8') as fr:
-        hypothesis_raw = fr.readlines()
-    with open(os.path.join(rel_docs_folder, reference_dir, read_file), 'r', encoding='utf-8') as fr:
-        reference_raw = fr.readlines()
+    # 读入文件
+    # df1为groundtruth（主表），df2为当前的result（次表）
+    df1 = pd.read_json(os.path.join(hypothesis_dir, read_file), lines=True)
+    df2 = pd.read_json(os.path.join(rel_docs_folder, reference_dir, read_file), lines=True)
 
-    if len(hypothesis_raw) != len(reference_raw):
-        exit(1)
+    # 可只保留需要的字段，比如 query 和 answer
+    df2 = df2.drop_duplicates(subset='query', keep='first')
+    df2 = df2[['query', 'answer']].rename(columns={'answer': 'answer_current'})
 
+    # 按query左连接
+    merged = pd.merge(df1, df2, on='query', how='left')
+
+    # 如果你想把 NaN 替换成空字符串
+    merged = merged.fillna('')
+
+    records = merged.to_dict(orient="records")
     # 输出文件
     evaluation_file = f'{args.metric}_details.jsonl'
 
@@ -139,31 +147,28 @@ if __name__ == '__main__':
     count = 0
 
     with open(os.path.join(evaluation_folder, evaluation_file), 'w', encoding='utf-8') as fw:
-        for i in range(len(hypothesis_raw)):
-            row = json.loads(hypothesis_raw[i])
-            hypothesis_row = json.loads(hypothesis_raw[i])
-            reference_row = json.loads(reference_raw[i])
-
+        for record in records:
+            row = record
             row['evaluation'] = None
-            if hypothesis_row['answer'] is None or hypothesis_row['answer'] == '':
+            if record['answer'] is None or record['answer'] == '':
                 score['invalid'] += 1
             else:
                 # 统一评分
-                if hypothesis_row['type'] == args.query_type:
-                    # print(hypothesis_row['answer'], reference_row['answer'])
+                if record['type'] == args.query_type:
                     score['count'] += 1
-                    if reference_row['answer'] == '':
+                    if record['answer_current'] == '':
                         row['evaluation'] = [{args.metric: 0}]
                     else:
-                        temp_score = evaluator.score(hypothesis_row['answer'], reference_row['answer'])
+                        temp_score = evaluator.score(record['answer'], record['answer_current'])
                         # print(temp_score)
                         if temp_score == -1:
                             row['evaluation'] = [{args.metric: 0}]
                         else:
-                            row['evaluation'] = [{args.metric: temp_score, 'groundtruth': hypothesis_row['answer'], 'current': reference_row['answer']}]
+                            row['evaluation'] = [{args.metric: temp_score, 'groundtruth': record['answer'], 'current': record['answer_current']}]
                             score[args.metric] += row['evaluation'][0][args.metric]
 
             del row['answer']
+            del row['answer_current']
             fw.write(json.dumps(row, ensure_ascii=False) + '\n')
 
         if score['count'] > 0:

@@ -20,9 +20,10 @@ class Generator(object):
             exit(1)
         with open(f'prompts/{prompt}', 'r', encoding='utf-8') as fr:
             self.prompt = fr.read()
-        self.system = {'generator_close': '你是一个金融投资领域专业的助手，擅长回答金融投资方面各种问题，并且做出准确且简洁的回答',
+        self.system_options = {'generator_close': '你是一个金融投资领域专业的助手，擅长回答金融投资方面各种问题，并且做出准确且简洁的回答',
                        'generator_value': '你精通金融领域的知识与相关数据分析，能够快速在pandas数据格式中找到问题的答案',
                        'generator_text': '你是一个金融投资领域专业的助手，擅长回答金融投资方面各种问题，并且会依据提供的相关文本信息做出准确且简洁的回答。'}
+        self.system = self.system_options[prompt]
 
     def generate(self, info):
         prompt = self.prompt.format(**info)
@@ -45,9 +46,10 @@ python Generator.py --model=deepseek-chat --retriever=bing --value=False
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--model', type=str, default='deepseek-chat')
-    parser.add_argument('--close', type=bool, default=False, help='是否提供相关文本')
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
-    parser.add_argument('--value', type=bool, default=True, choices=[True, False], help='是否计算value型query')
+    parser.add_argument('--close', type=int, default=0, choices=[0, 1], help='是否提供相关文本')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'],
+                        help='retriever type')
+    parser.add_argument('--value', type=int, default=1, choices=[0, 1], help='是否计算value型query')
     args = parser.parse_args()
 
 

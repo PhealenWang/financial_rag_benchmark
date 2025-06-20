@@ -5,6 +5,7 @@ from typing import Optional
 from tqdm import tqdm
 from time import sleep
 from argparse import ArgumentParser
+import pandas as pd
 
 
 class PairwiseLLMEvaluator(object):
@@ -74,7 +75,7 @@ class PairwiseLLMEvaluator(object):
 '''
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'], help='retriever type')
     parser.add_argument('--metric', type=str, default='completeness', choices=['overall_pairwise', 'completeness'])
     parser.add_argument('--query_type', type=str, default='content', choices=['content'])
     args = parser.parse_args()
@@ -85,22 +86,32 @@ if __name__ == '__main__':
     hypothesis_model = 'groundtruth'
     reference_model = '<- YOUR MODEL ->'
 
-    rel_docs_folder = 'rel_docs/v7/'
-    hypothesis_file = f'results/{args.retriever}/{hypothesis_model}/content.jsonl'
-    reference_file = f'results/{args.retriever}/{reference_model}/content.jsonl'
+    rel_docs_folder = 'rel_docs'
+    hypothesis_file = f'dataset/content.jsonl'
+    reference_file = f'{rel_docs_folder}/results/{args.retriever}/{reference_model}/content.jsonl'
+
+    # 读入文件
+    # df1为groundtruth（主表），df2为当前的result（次表）
+    df1 = pd.read_json(hypothesis_file, lines=True)
+    df2 = pd.read_json(reference_file, lines=True)
+
+    # 可只保留需要的字段，比如 query 和 answer
+    df2 = df2.drop_duplicates(subset='query', keep='first')
+    df2 = df2[['query', 'answer']].rename(columns={'answer': 'answer_current'})
+
+    # 按query左连接
+    merged = pd.merge(df1, df2, on='query', how='left')
+
+    # 如果你想把 NaN 替换成空字符串
+    merged = merged.fillna('')
+
+    records = merged.to_dict(orient="records")
+
     # 前为hypothesis，后为reference
     evaluation_folder = os.path.join(rel_docs_folder, f'evaluation/{args.retriever}/{hypothesis_model}_vs_{reference_model}/')
     evaluation_file = f'{args.metric}_details.jsonl'
 
     evaluator = PairwiseLLMEvaluator(metric=args.metric, model=model)
-
-    with open(os.path.join(rel_docs_folder, hypothesis_file), 'r', encoding='utf-8') as fr:
-        hypothesis_raw = fr.readlines()
-    with open(os.path.join(rel_docs_folder, reference_file), 'r', encoding='utf-8') as fr:
-        reference_raw = fr.readlines()
-
-    if len(hypothesis_raw) != len(reference_raw):
-        exit(1)
 
     score = {args.metric: 0, "count": 0, 'invalid': 0}
 
@@ -123,18 +134,16 @@ if __name__ == '__main__':
     count = 0
     with open(os.path.join(evaluation_folder, evaluation_file), 'a', encoding='utf-8') as fw:
         # 断点继续
-        for i in tqdm(range(len(evaluation_raw), len(hypothesis_raw))):
-            row = json.loads(hypothesis_raw[i])
-            hypothesis_row = json.loads(hypothesis_raw[i])
-            reference_row = json.loads(reference_raw[i])
+        for i in tqdm(range(len(evaluation_raw), len(records))):
+            row = records[i]
 
-            if hypothesis_row['answer'] == '' or hypothesis_row['answer'] is None:
+            if row['answer'] == '' or row['answer'] is None:
                 row['evaluation'] = None
                 score['invalid'] += 1
             else:
                 row['evaluation'] = None
                 # 文字内容，使用model-based指标进行评分
-                if hypothesis_row['type'] == 'content':
+                if row['type'] == 'content':
                     try:
                         # 读取出相关文本
                         if args.retriever == 'base':
@@ -142,15 +151,19 @@ if __name__ == '__main__':
                                 docs_items = json.load(fr)
                             docs = [docs_items[i][0] for i in range(min(10, len(docs_items)))]
                         # bing
-                        else:
+                        elif args.retriever == 'bing':
                             with open(os.path.join(rel_docs_folder, f'{row['first_intent']}/{row['second_intent']}/{row['query']}/{args.retriever}/merge.json'), 'r') as fr:
                                 docs = json.load(fr)
+                        # bert
+                        else:
+                            with open(os.path.join(rel_docs_folder, f'{row['first_intent']}/{row['second_intent']}/{row['query']}/{args.retriever}/origin_docs.json'), 'r') as fr:
+                                docs = json.load(fr)
 
-                        if reference_row['answer'] == '' or reference_row['answer'] is None:
+                        if row['answer_current'] == '' or row['answer_current'] is None:
                             row['evaluation'] = [{args.metric: 0}]
                         else:
-                            info = {'query': hypothesis_row['query'], 'hypothesis': hypothesis_row['answer'],
-                                    'reference': reference_row['answer'], 'docs': docs}
+                            info = {'query': row['query'], 'hypothesis': row['answer'],
+                                    'reference': row['answer_current'], 'docs': docs}
                             current_score, other = evaluator.score(info)
                             row['evaluation'] = [{args.metric: current_score, 'other': other}]
                             score[args.metric] += row['evaluation'][0][args.metric]

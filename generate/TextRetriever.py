@@ -6,6 +6,10 @@ import time
 from tqdm import tqdm
 import requests
 from datetime import datetime
+from transformers import BertTokenizer, BertModel
+import torch
+import faiss
+import numpy as np
 
 
 class TextRetriever(object):
@@ -14,9 +18,35 @@ class TextRetriever(object):
     '''
     def __init__(self, retriever: str):
         '''
-        :param retriever: 检索器有两类，基本检索器（数据库查询），外部检索器（bing）
+        :param retriever: 检索器有三类，基本检索器（数据库查询），外部检索器（bing），bert
         '''
         self.type = retriever
+        if self.type == 'bert':
+            # 加载本地BERT模型和分词器
+            model_dir = './models/bert'
+            print('loading BERT model...')
+            self.tokenizer = BertTokenizer.from_pretrained(model_dir)
+            self.model = BertModel.from_pretrained(model_dir)
+            self.model.eval()
+            print('BERT model loaded.')
+
+            # 3. 加载你的文本数据
+            corpus_path = 'dataset/corpus.jsonl'
+            self.texts = []
+            with open(corpus_path, 'r') as f:
+                for line in f:
+                    self.texts.append(json.loads(line)['text'])
+
+            # 生成所有文本的向量
+            print('generating docs...')
+            embeddings = np.stack([self._get_embedding(t) for t in self.texts]).astype("float32")
+            print('embeddings shape:', embeddings.shape)
+
+            # 用FAISS构建索引
+            print('indexing docs...')
+            self.index = faiss.IndexFlatL2(embeddings.shape[1])
+            self.index.add(embeddings)
+            print('docs indexed successfully.')
 
     def _freshness(self, start_date: str, end_date: str) -> str:
         '''
@@ -37,6 +67,20 @@ class TextRetriever(object):
             return f"{start}.."
         else:
             return ""
+
+
+    def _get_embedding(self, text):
+        '''
+        定义文本向量化函数（取[CLS]向量），bert类型的辅助函数
+        :param text:
+        :return:
+        '''
+        inputs = self.tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
+        with torch.no_grad():
+            outputs = self.model(**inputs)
+            emb = outputs.last_hidden_state[:, 0, :]  # 取CLS向量
+        return emb[0].numpy()
+
 
     def request(self, query, params, count=10, offset=0, timeout=2000, limit=3):
         if self.type == 'bing':
@@ -75,7 +119,7 @@ class TextRetriever(object):
             print('BingClient cost = ' + str(time.time() - start_time))
             return None
 
-        else:
+        elif self.type == 'bing':
             command = [
                 '<- YOUR COMMAND ->'
             ]
@@ -91,11 +135,23 @@ class TextRetriever(object):
                 # 如果命令执行失败，打印错误信息
                 print(f"Error: {result.stderr}")
                 return None
+        elif self.type == 'bert':
+            # 检索函数
+            def search(query, topk=5):
+                query_vec = self._get_embedding(query).astype("float32").reshape(1, -1)
+                D, I = self.index.search(query_vec, topk)
+                return [(self.texts[i], float(D[0][j])) for j, i in enumerate(I[0])]
 
+            # 检索
+            result = search(query=query, topk=count)
+            ret = []
+            for text, _ in result:
+                ret.append(text)
+            return ret
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'], help='retriever type')
     args = parser.parse_args()
     retriever = args.retriever
 

@@ -70,14 +70,14 @@ class PointwiseLLMEvaluator(object):
 
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing'], help='retriever type')
+    parser.add_argument('--retriever', type=str, default='base', choices=['base', 'bing', 'bert'], help='retriever type')
     parser.add_argument('--metric', type=str, default='relevance', choices=['overall', 'relevance'])
     parser.add_argument('--query_type', type=str, default='content', choices=['content'])
     args = parser.parse_args()
 
     # 判别LLM
     judger_model = '<- YOUR JUDGER MODEL ->'
-    rel_dir = 'rel_docs/v7'
+    rel_dir = 'rel_docs'
     model = '<- YOUR MODEL ->'
 
     # 这个地方需要读取出每个query是否是content类型，但deepseek-chat中加入了这个信息
@@ -128,8 +128,12 @@ if __name__ == '__main__':
                             with open(os.path.join(rel_dir, f'{row['first_intent']}/{row['second_intent']}/{row['query']}/{args.retriever}/score_rel_6.json'), 'r') as fr:
                                 docs_items = json.load(fr)
                             docs = [docs_items[i][0] for i in range(min(10, len(docs_items)))]
-                        else:
+                        elif args.retriever == 'bing':
                             with open(os.path.join(rel_dir, f'{row['first_intent']}/{row['second_intent']}/{row['query']}/{args.retriever}/merge.json'), 'r') as fr:
+                                docs = json.load(fr)
+                        # bert
+                        else:
+                            with open(os.path.join(rel_dir, f'{row['first_intent']}/{row['second_intent']}/{row['query']}/{args.retriever}/origin_docs.json'), 'r') as fr:
                                 docs = json.load(fr)
 
                         info = {'query': dataset_row['query'], 'docs': docs, 'answer': dataset_row['answer']}
